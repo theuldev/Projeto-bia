@@ -1,0 +1,68 @@
+/* Define altura, borda arredondada e sombra do mapa */
+#map {
+    height: 500px; /* Altura fixa do mapa */
+    border-radius: 12px; /* Cantos arredondados */
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); /* Sombra leve ao redor */
+}
+
+/* Estilo geral da caixa de informações (popup) personalizada */
+.custom-popup {
+    min-width: 250px; /* Largura mínima para o popup */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Fonte legível e moderna */
+}
+
+/* Estiliza o título dentro do popup */
+.custom-popup h3 {
+    color: hsl(226, 71%, 40%); /* Azul escuro para o título */
+    font-weight: 600; /* Negrito */
+    margin-bottom: 8px; /* Espaço inferior */
+    border-bottom: 1px solid #e5e7eb; /* Linha divisória inferior */
+    padding-bottom: 6px; /* Espaço abaixo do texto */
+}
+
+/* Define layout flexível para cada linha de dados no popup */
+.custom-popup .data-row {
+    display: flex; /* Layout em linha */
+    justify-content: space-between; /* Espaço entre os itens */
+    margin-bottom: 6px; /* Espaço inferior entre linhas */
+}
+
+/* Estilo do rótulo (nome do dado) */
+.custom-popup .data-label {
+    font-weight: 500; /* Peso médio */
+    color: #4b5563; /* Cinza escuro */
+}
+
+/* Estilo do valor (informação) */
+.custom-popup .data-value {
+    font-weight: 600; /* Mais destacado */
+    color: #1f2937; /* Cinza ainda mais escuro */
+}
+
+/* Indicador circular para legenda de qualidade */
+.quality-indicator {
+    display: inline-block; /* Elemento em linha com comportamento de bloco */
+    width: 12px;
+    height: 12px;
+    border-radius: 50%; /* Formato circular */
+    margin-right: 6px; /* Espaço à direita */
+}
+
+/* Cores específicas para cada nível de qualidade da água */
+.excellent { background-color: #10b981; } /* Excelente - Verde esmeralda */
+.good { background-color: #84cc16; }       /* Boa - Verde limão */
+.fair { background-color: #f59e0b; }       /* Regular - Laranja */
+.poor { background-color: #ef4444; }       /* Ruim - Vermelho claro */
+.critical { background-color: #991b1b; }   /* Crítica - Vermelho escuro */
+
+/* Efeito de pulsação (animação) */
+.pulse {
+    animation: pulse 2s infinite; /* Aplica animação em loop */
+}
+
+/* Define os quadros da animação de pulsação */
+@keyframes pulse {
+    0% { opacity: 1; }     /* Totalmente visível */
+    50% { opacity: 0.5; }  /* Meio transparente */
+    100% { opacity: 1; }   /* Totalmente visível novamente */
+}

@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <!-- Define a codificação de caracteres e a escala de visualização para dispositivos móveis -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Título da aba do navegador -->
+    <title>EcoÁgua - Monitoramento da Qualidade da Água em Salvador</title>
+
+    <!-- Importa o Tailwind CSS para estilos utilitários -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Importa os estilos e o script do Leaflet para o mapa -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <!-- Importa os ícones do Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Link para um arquivo CSS personalizado (opcional) -->
+    <link rel="stylesheet" href="style.css">
+    <!-- Script principal da aplicação -->
+    <script src="script.js"></script>
+    <!-- Script do header da aplicação -->
+    <script src="../header/header.js"></script>
+</head>
+<body class="bg-gray-50">
+    
+    <!-- Cabeçalho com logo, nome do sistema e menu de navegação -->
+    <div id="header"></div>
+    <!-- Conteúdo principal da página -->
+    <main class="container mx-auto px-4 py-8">
+
+        <!-- Seção com indicadores de status de qualidade da água -->
+        <section class="mb-12">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+                <!-- Cartão: Pontos monitorados -->
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <div class="flex items-center">
+                        <div class="p-3 rounded-full bg-blue-100 text-blue-600 mr-4">
+                            <i class="fas fa-map-marked-alt text-xl"></i>
+                        </div>
+                        <div>
+                            <p class="text-gray-500">Pontos monitorados</p>
+                            <h3 class="text-2xl font-bold">24</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cartão: Áreas com boa qualidade -->
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <div class="flex items-center">
+                        <div class="p-3 rounded-full bg-green-100 text-green-600 mr-4">
+                            <i class="fas fa-check-circle text-xl"></i>
+                        </div>
+                        <div>
+                            <p class="text-gray-500">Áreas com boa qualidade</p>
+                            <h3 class="text-2xl font-bold">0</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cartão: Áreas com alerta -->
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <div class="flex items-center">
+                        <div class="p-3 rounded-full bg-yellow-100 text-yellow-600 mr-4">
+                            <i class="fas fa-exclamation-triangle text-xl"></i>
+                        </div>
+                        <div>
+                            <p class="text-gray-500">Áreas com alerta</p>
+                            <h3 class="text-2xl font-bold">0</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cartão: Áreas críticas -->
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <div class="flex items-center">
+                        <div class="p-3 rounded-full bg-red-100 text-red-600 mr-4">
+                            <i class="fas fa-times-circle text-xl"></i>
+                        </div>
+                        <div>
+                            <p class="text-gray-500">Áreas críticas</p>
+                            <h3 class="text-2xl font-bold">0</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Informações adicionais sobre a atualização dos dados -->
+            <div class="bg-white p-6 rounded-lg shadow">
+                <h2 class="text-xl font-bold mb-4 text-gray-800">Última atualização: <span class="text-blue-600">Hoje, 10:45 AM</span></h2>
+                <p class="text-gray-600 mb-4">O sistema EcoÁgua monitora continuamente a qualidade da água em diversos pontos estratégicos de Salvador. Passe o mouse sobre os marcadores no mapa para ver informações detalhadas de cada local.</p>
+                <div class="flex items-center text-sm text-gray-500">
+                    <i class="fas fa-info-circle mr-2"></i>
+                    <span>Dados atualizados a cada 4 horas</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Seção do mapa de monitoramento -->
+        <section class="mb-12">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-2xl font-bold text-gray-800">Mapa de Monitoramento</h2>
+                <!-- Botões de ações: exportar e filtros -->
+                <div class="flex space-x-2">
+                    <button class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center">
+                        <i class="fas fa-download mr-2"></i>
+                        Exportar
+                    </button>
+                    <button class="bg-white hover:bg-gray-100 border border-gray-300 text-gray-700 px-4 py-2 rounded-lg flex items-center">
+                        <i class="fas fa-filter mr-2"></i>
+                        Filtros
+                    </button>
+                </div>
+            </div>
+
+            <!-- Container onde será carregado o mapa -->
+            <div id="map" class="w-full"></div>
+
+            <!-- Legenda e contagem regressiva de atualização -->
+            <div class="mt-4 flex flex-wrap items-center justify-between">
+                <!-- Legenda de cores da qualidade da água -->
+                <div class="flex items-center space-x-4 mb-2">
+                    <div class="flex items-center">
+                        <span class="quality-indicator excellent"></span>
+                        <span>Excelente</span>
+                    </div>
+                    <div class="flex items-center">
+                        <span class="quality-indicator good"></span>
+                        <span>Boa</span>
+                    </div>
+                    <div class="flex items-center">
+                        <span class="quality-indicator fair"></span>
+                        <span>Regular</span>
+                    </div>
+                    <div class="flex items-center">
+                        <span class="quality-indicator poor"></span>
+                        <span>Ruim</span>
+                    </div>
+                    <div class="flex items-center">
+                        <span class="quality-indicator critical"></span>
+                        <span>Crítica</span>
+                    </div>
+                </div>
+
+                <!-- Temporizador para a próxima atualização -->
+                <div class="text-sm text-gray-500 mb-2">
+                    <i class="fas fa-sync-alt mr-1"></i>
+                    Atualização automática em <span id="countdown">3:45</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tabela com dados recentes de qualidade da água -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold mb-4 text-gray-800">Dados Recentes</h2>
+            <div class="bg-white rounded-lg shadow overflow-hidden">
+                <!-- Tabela responsiva -->
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <!-- Cabeçalhos da tabela -->
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Localização</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">pH</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Turbidez</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Oxigênio</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Coliformes</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Qualidade</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Data</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                            <!-- Linhas com dados de diferentes locais monitorados -->
+                            <!-- Exemplo 1 -->
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Rio do Cobre</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">7.2</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">12 NTU</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">8.4 mg/L</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">120 UFC</td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                        Boa
+                                    </span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">10/06/2023</td>
+                            </tr>
+                            <!-- Exemplo 2 e 3 seguem padrão semelhante -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Rodapé da tabela com paginação -->
+                <div class="bg-gray-50 px-6 py-3 flex items-center justify-between border-t border-gray-200">
+                    <div class="flex-1 flex justify-between sm:hidden">
+                        <a href="#" class="...">Anterior</a>
+                        <a href="#" class="...">Próxima</a>
+                    </div>
+                    <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+                        <!-- Informação de quantidade de resultados -->
+                        <div>
+                            <p class="text-sm text-gray-700">
+                                Mostrando <span class="font-medium">1</span> a <span class="font-medium">3</span> de <span class="font-medium">24</span> resultados
+                            </p>
+                        </div>
+                        <!-- Navegação de páginas -->
+                        <div>
+                            <nav class="...">
+                                <a href="#" class="..."><i class="fas fa-chevron-left"></i></a>
+                                <a href="#" class="...">1</a>
+                                <a href="#" class="...">2</a>
+                                <a href="#" class="...">3</a>
+                                <a href="#" class="..."><i class="fas fa-chevron-right"></i></a>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Rodapé do site -->
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Informações institucionais -->
+                <div>
+                    <h3 class="text-xl font-bold mb-4">EcoÁgua</h3>
+                    <p class="text-gray-300">Monitoramento contínuo da qualidade da água em Salvador, Bahia.</p>

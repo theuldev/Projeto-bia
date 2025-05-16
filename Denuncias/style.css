@@ -1,0 +1,103 @@
+/* Estilo geral do corpo da página */
+body {
+    background-color: #f4f4f4; /* Cor de fundo clara */
+    color: #333; /* Cor padrão do texto (cinza escuro) */
+}
+
+
+/* Estilo das seções de formulário e mapa */
+#form-container, #map-container {
+    font-family: sans-serif; /* Fonte padrão sem serifa */
+    background-color: white; /* Fundo branco */
+    margin: 20px; /* Espaçamento externo em volta da página */
+    padding: 20px; /* Espaçamento interno */
+    margin-bottom: 20px; /* Espaço abaixo das seções */
+    border-radius: 5px; /* Cantos arredondados */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra suave */
+}
+
+/* Títulos das seções */
+h2 {
+    color: #096afc; /* Verde */
+    margin-top: 0; /* Remove margem superior */
+}
+
+/* Grupos de campos do formulário */
+.form-group {
+    margin-bottom: 15px; /* Espaço entre os campos */
+}
+
+/* Rótulos dos campos */
+label {
+    display: block; /* Quebra de linha */
+    margin-bottom: 5px; /* Espaço abaixo do texto */
+    font-weight: bold; /* Texto em negrito */
+}
+
+/* Campos de texto, seletores e área de texto */
+input[type="text"],
+select,
+textarea {
+    width: calc(100% - 12px); /* Largura total ajustada */
+    padding: 8px; /* Espaço interno */
+    border: 1px solid #ccc; /* Borda cinza */
+    border-radius: 4px; /* Cantos arredondados */
+    box-sizing: border-box; /* Inclui padding na largura total */
+    margin-bottom: 10px; /* Espaço abaixo do campo */
+    font-size: 16px; /* Tamanho da fonte */
+}
+
+/* Permite redimensionar verticalmente apenas a área de texto */
+textarea {
+    resize: vertical;
+}
+
+/* Botões padrão */
+button {
+    background-color: #007bff; /* Azul */
+    color: white; /* Texto branco */
+    padding: 10px 15px; /* Espaçamento interno */
+    border: none; /* Sem borda */
+    border-radius: 4px; /* Cantos arredondados */
+    cursor: pointer; /* Cursor de clique */
+    font-size: 16px; /* Tamanho da fonte */
+}
+
+/* Estilo quando o mouse passa sobre o botão */
+button:hover {
+    background-color: #0056b3; /* Azul mais escuro */
+}
+
+/* Estilo do contêiner do mapa */
+#map {
+    height: 500px; /* Altura fixa */
+    border: 1px solid #ccc; /* Borda cinza */
+    border-radius: 4px; /* Cantos arredondados */
+}
+
+/* Rodapé da página */
+footer {
+    text-align: center; /* Centraliza o texto */
+    margin-top: 20px; /* Espaço acima do rodapé */
+    padding: 10px; /* Espaçamento interno */
+    background-color: #333; /* Fundo escuro */
+    color: white; /* Texto branco */
+    border-radius: 5px; /* Cantos arredondados */
+}
+
+/* Elementos ocultos (ex: mensagens dinâmicas) */
+.hidden {
+    display: none;
+}
+
+/* Estilo para mensagens de erro */
+.error {
+    color: red;
+    margin-top: 5px;
+}
+
+/* Estilo para mensagens de sucesso */
+.success {
+    color: green;
+    margin-top: 5px;
+}

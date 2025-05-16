@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8"> <!-- Define a codificação de caracteres para UTF-8 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Responsividade para dispositivos móveis -->
+    <title>Reclamações sobre a Qualidade da Água</title> <!-- Título da aba do navegador -->
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Biblioteca Leaflet (para mapas) -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+
+
+    <!-- Estilo personalizado -->
+    <link rel="stylesheet" href="style.css">
+    <!-- Script principal da aplicação -->
+    <script src="script.js"></script>
+    <!-- Script do header da aplicação -->
+    <script src="../header/header.js"></script>
+</head>
+<body>
+
+    <!-- Cabeçalho com título e descrição -->
+    <!-- <header>
+        <h1>Registre sua Reclamação sobre a Qualidade da Água</h1>
+        <p>Compartilhe sua experiência para nos ajudar a analisar a situação em sua região.</p>
+    </header> -->
+    <div id="header"></div>
+    <!-- Formulário para envio de reclamações -->
+    <section id="form-container">
+        <h2>Formulário de Reclamação</h2>
+        <form id="water-complaint-form">
+            
+            <!-- Campo para inserir região/bairro -->
+            <div class="form-group">
+                <label for="region">Região/Bairro (Obrigatório):</label>
+                <input type="text" id="region" name="region" required>
+            </div>
+
+            <!-- Campo para escolher o tipo de problema -->
+            <div class="form-group">
+                <label for="problem-type">Tipo de Problema (Obrigatório):</label>
+                <select id="problem-type" name="problem-type" required>
+                    <option value="">Selecione o problema</option>
+                    <option value="odor">Odor estranho</option>
+                    <option value="cor">Cor anormal (turva, amarelada, etc.)</option>
+                    <option value="gosto">Gosto ruim</option>
+                    <option value="particulas">Presença de partículas/sujeira</option>
+                    <option value="pressao">Baixa pressão/falta d'água</option>
+                    <option value="outro">Outro</option>
+                </select>
+            </div>
+
+            <!-- Campo extra mostrado apenas se a opção "Outro" for escolhida -->
+            <div class="form-group" id="other-problem" style="display: none;">
+                <label for="other-problem-description">Outro Problema (Descreva):</label>
+                <textarea id="other-problem-description" name="other-problem-description"></textarea>
+            </div>
+
+            <!-- Campo para descrição detalhada do problema -->
+            <div class="form-group">
+                <label for="description">Descrição Detalhada (Obrigatório):</label>
+                <textarea id="description" name="description" rows="5" required></textarea>
+            </div>
+
+            <!-- Coordenadas geográficas (opcional e preenchidas automaticamente) -->
+            <div class="form-group">
+                <label for="latitude">Latitude (Opcional):</label>
+                <input type="text" id="latitude" name="latitude" readonly>
+            </div>
+
+            <div class="form-group">
+                <label for="longitude">Longitude (Opcional):</label>
+                <input type="text" id="longitude" name="longitude" readonly>
+            </div>
+
+            <!-- Botão para obter a localização atual do usuário -->
+            <div class="form-group">
+                <button type="button" onclick="getLocation()">Obter Localização</button>
+            </div>
+
+            <!-- Botão para enviar a reclamação -->
+            <button type="button" onclick="submitComplaint()">Enviar Reclamação</button>
+
+            <!-- Mensagem de feedback ao usuário -->
+            <div id="message" class="hidden"></div>
+        </form>
+    </section>
+
+    <!-- Mapa com as reclamações registradas -->
+    <section id="map-container">
+        <h2>Mapa de Reclamações (Aproximado)</h2>
+        <div id="map"></div> <!-- Contêiner onde o Leaflet renderiza o mapa -->
+    </section>
+
+    <!-- Rodapé com informações da plataforma -->
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Informações institucionais -->
+                <div>
+                    <h3 class="text-xl font-bold mb-4">EcoÁgua</h3>
+                    <p class="text-gray-300">Monitoramento contínuo da qualidade da água em Salvador, Bahia.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
